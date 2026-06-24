@@ -30,7 +30,7 @@ class EmbeddingService:
         results: list[list[float] | None] = [cache.get(k) for k in keys]
 
         misses = [(i, texts[i]) for i, r in enumerate(results) if r is None]
-        if misses:
+        if misses:  # encode all misses in one call — way faster than one by one
             indices, raw_texts = zip(*misses)
             logger.debug("[embedding] encoding %d misses in one batch", len(raw_texts))
             vectors = self._model.encode(list(raw_texts)).tolist()
