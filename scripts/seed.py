@@ -52,6 +52,7 @@ def main() -> None:
                 "author": book["author"],
                 "year": book["year"],
                 "genre": book["genre"],
+                "description": book["description"],
             },
         )
         print(f"  [{i:>2}/{total}] {book['title']}  ({book['genre']})")
