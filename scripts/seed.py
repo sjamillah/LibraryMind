@@ -1,12 +1,7 @@
 """
-Seed script — embeds every book in data/books.json and upserts it into ChromaDB.
-
-Run from the project root:
-    python scripts/seed.py
-
-Safe to re-run: upsert is idempotent, so existing documents are updated,
-not duplicated. On first run, sentence-transformers downloads ~80 MB of model
-weights automatically — an internet connection is required.
+Embed every book in data/books.json and upsert into ChromaDB.
+Run from the project root: python scripts/seed.py
+Safe to re-run. First run downloads ~80 MB of model weights.
 """
 import json
 import logging
@@ -22,13 +17,7 @@ from app.infrastructure.vector_store import vector_store
 
 
 def _build_embed_text(book: dict) -> str:
-    """Combine title, author, and description into one string for embedding.
-
-    Including all three fields ensures the resulting vector represents the whole
-    book: a query for 'Frank Herbert' matches on author, 'space travel' matches
-    on description, and 'Dune' matches on title. Embedding description alone
-    breaks author-name and title queries.
-    """
+    # title + author so name queries hit; description for content queries
     return f"{book['title']} by {book['author']}. {book['description']}"
 
 

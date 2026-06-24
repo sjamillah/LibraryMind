@@ -8,15 +8,7 @@ _CHROMA_PATH = ".chroma"
 
 
 class VectorStore:
-    """ChromaDB-backed vector store for book embeddings.
-
-    Distance note — ChromaDB returns cosine *distance*, not similarity:
-        distance 0.0  →  identical vectors (most relevant)
-        distance 1.0  →  maximally dissimilar (least relevant)
-
-    Any relevance threshold in Part 4 must be a maximum distance, e.g.
-    ``distance < 0.5``, not a minimum similarity score.
-    """
+    # ChromaDB returns cosine distance (0 = identical, 1 = opposite) — not similarity.
 
     def __init__(self, collection_name: str = "books") -> None:
         self._client = chromadb.PersistentClient(path=_CHROMA_PATH)
@@ -31,7 +23,6 @@ class VectorStore:
         )
 
     def upsert(self, id: str, vector: list[float], metadata: dict) -> None:
-        """Insert or update a single document. Safe to call repeatedly."""
         self._collection.upsert(
             ids=[id],
             embeddings=[vector],
@@ -39,11 +30,6 @@ class VectorStore:
         )
 
     def search(self, query_vector: list[float], top_k: int = 5) -> list[dict]:
-        """Return the top_k closest documents to query_vector.
-
-        Each result: {"id": str, "distance": float, "metadata": dict}
-        Results are sorted ascending by distance (most relevant first).
-        """
         count = self._collection.count()
         if count == 0:
             return []

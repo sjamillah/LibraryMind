@@ -12,11 +12,10 @@ from app.services.embedding_service import embedding_service
 logger = logging.getLogger(__name__)
 
 _TOP_K = 5
-_DISTANCE_THRESHOLD = 0.7  # cosine distance — keep results BELOW this value
+_DISTANCE_THRESHOLD = 0.7  # lower = more similar in cosine distance
 
-# The system prompt is the primary anti-hallucination control.
-# Explicitly forbidding the use of training-data knowledge is necessary:
-# without it, the model will helpfully fill context gaps with invented titles.
+# Without the explicit "don't use training data" rule, the model fills gaps
+# with books it knows from training — which aren't in our catalogue.
 _SYSTEM_PROMPT = """\
 You are LibraryMind, a library assistant helping patrons discover books.
 

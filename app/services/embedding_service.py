@@ -7,7 +7,7 @@ from app.infrastructure.cache import cache
 logger = logging.getLogger(__name__)
 
 _MODEL_NAME = "all-MiniLM-L6-v2"
-_EMBED_CACHE_TTL = 86_400  # 24 h — embeddings are deterministic; no reason to recompute
+_EMBED_CACHE_TTL = 86_400  # 24 h
 
 
 class EmbeddingService:
@@ -17,7 +17,6 @@ class EmbeddingService:
         logger.info("[embedding] model ready")
 
     def embed(self, text: str) -> list[float]:
-        """Embed a single string. Returns cached result if available."""
         key = cache.make_key("embed", text)
         cached = cache.get(key)
         if cached is not None:
@@ -27,19 +26,13 @@ class EmbeddingService:
         return vector
 
     def embed_batch(self, texts: list[str]) -> list[list[float]]:
-        """Embed a list of strings efficiently.
-
-        Cache hits are returned immediately. All misses are collected and
-        encoded in a single model.encode() call — batching is significantly
-        faster than N individual calls.
-        """
         keys = [cache.make_key("embed", t) for t in texts]
         results: list[list[float] | None] = [cache.get(k) for k in keys]
 
         misses = [(i, texts[i]) for i, r in enumerate(results) if r is None]
         if misses:
             indices, raw_texts = zip(*misses)
-            logger.debug("[embedding] batch-encoding %d cache misses", len(raw_texts))
+            logger.debug("[embedding] encoding %d misses in one batch", len(raw_texts))
             vectors = self._model.encode(list(raw_texts)).tolist()
             for idx, vector in zip(indices, vectors):
                 cache.set(keys[idx], vector, ttl_seconds=_EMBED_CACHE_TTL)
