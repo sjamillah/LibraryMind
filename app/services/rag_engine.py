@@ -69,6 +69,7 @@ class RAGEngine:
         self._service = build_service()
 
     def query(self, question: str) -> RAGResponse:
+        """Embed, search, filter, generate — returns answer + sources + cache flag."""
         cache_key = cache.make_key("rag", question)
 
         cached = cache.get(cache_key)
@@ -99,7 +100,7 @@ class RAGEngine:
             Source(
                 title=r["metadata"]["title"],
                 author=r["metadata"]["author"],
-                relevance_score=round(1.0 - r["distance"], 4),
+                relevance_score=round(1.0 - r["distance"], 4),  # flip distance to score
             )
             for r in relevant
         ]

@@ -30,10 +30,11 @@ class VectorStore:
         )
 
     def search(self, query_vector: list[float], top_k: int = 5) -> list[dict]:
+        """Returns results sorted by distance (closest first). Each item: {id, distance, metadata}."""
         count = self._collection.count()
         if count == 0:
             return []
-        n = min(top_k, count)
+        n = min(top_k, count)  # chromadb raises if n_results > collection size
 
         results = self._collection.query(
             query_embeddings=[query_vector],

@@ -30,6 +30,7 @@ class Cache:
 
     @staticmethod
     def make_key(*parts: str) -> str:
+        """SHA-256 hash of the joined parts — safe to use as a Redis or dict key."""
         raw = "|".join(str(p) for p in parts)
         return hashlib.sha256(raw.encode("utf-8")).hexdigest()
 

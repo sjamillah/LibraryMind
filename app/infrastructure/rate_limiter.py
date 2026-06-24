@@ -9,6 +9,8 @@ class RateLimitExceeded(Exception):
 
 
 class RateLimiter:
+    """Token bucket rate limiter — thread-safe."""
+
     def __init__(self, requests_per_minute: int):
         self.capacity = requests_per_minute
         self.tokens = float(requests_per_minute)

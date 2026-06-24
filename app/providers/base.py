@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 
 class AIProvider(ABC):
+    """Contract every AI provider must satisfy."""
     @property
     @abstractmethod
     def provider_name(self) -> str:
