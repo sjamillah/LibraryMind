@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.api.v1 import books, query
+from app.api.v1 import books, classify, query, summarise
 
 _DESCRIPTION = """
 **LibraryMind** is an AI-powered library assistant that helps patrons discover books
@@ -19,6 +19,8 @@ through natural-language questions.
 | Endpoint | Purpose |
 |---|---|
 | `POST /api/v1/query/` | Ask the assistant a question |
+| `POST /api/v1/classify/` | Classify a library support ticket |
+| `POST /api/v1/summarise/` | Summarise a collection of book reviews |
 | `GET /api/v1/books/` | List all books in the catalogue |
 | `GET /api/v1/books/{id}` | Retrieve a single book by ID |
 | `GET /health` | Service health check |
@@ -42,6 +44,14 @@ app = FastAPI(
             "description": "Browse and retrieve catalogue entries.",
         },
         {
+            "name": "Classify",
+            "description": "Classify raw library support tickets into structured JSON.",
+        },
+        {
+            "name": "Summarise",
+            "description": "Summarise collections of patron book reviews holistically.",
+        },
+        {
             "name": "Health",
             "description": "Service liveness check.",
         },
@@ -50,6 +60,8 @@ app = FastAPI(
 
 app.include_router(query.router, prefix="/api/v1")
 app.include_router(books.router, prefix="/api/v1")
+app.include_router(classify.router, prefix="/api/v1")
+app.include_router(summarise.router, prefix="/api/v1")
 
 
 @app.get("/health", tags=["Health"], summary="Service health check")
