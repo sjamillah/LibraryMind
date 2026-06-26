@@ -3,6 +3,7 @@ from __future__ import annotations
 import logging
 from dataclasses import dataclass, field
 
+from app.core.config import settings
 from app.infrastructure.cache import cache
 from app.infrastructure.rate_limiter import rate_limiter
 from app.infrastructure.vector_store import vector_store
@@ -12,7 +13,25 @@ from app.services.embedding_service import embedding_service
 logger = logging.getLogger(__name__)
 
 _TOP_K = 5
-_DISTANCE_THRESHOLD = 0.7  # lower = more similar in cosine distance
+_DISTANCE_THRESHOLD: float = settings.RAG_RELEVANCE_THRESHOLD
+
+# Phrases that indicate the AI found nothing useful in the provided context.
+# When matched, sources are cleared — returning sources alongside a refusal
+# implies relevance the AI itself just denied.
+_REFUSAL_PHRASES = (
+    "couldn't find",
+    "could not find",
+    "no books",
+    "no titles",
+    "no results",
+    "not in the catalogue",
+    "not in our catalogue",
+    "not available in",
+    "there are no",
+    "don't have any",
+    "do not have any",
+    "nothing relevant",
+)
 
 # Without the explicit "don't use training data" rule, the model fills gaps
 # with books it knows from training — which aren't in our catalogue.
@@ -96,6 +115,11 @@ class RAGEngine:
 
         answer = self._service.generate(prompt=prompt, system=_SYSTEM_PROMPT)
 
+        if _is_refusal(answer):
+            logger.info("[rag] AI declined — clearing sources")
+            cache.set(cache_key, {"answer": answer, "sources": []})
+            return RAGResponse(answer=answer, sources=[], cached=False)
+
         sources = [
             Source(
                 title=r["metadata"]["title"],
@@ -119,6 +143,11 @@ class RAGEngine:
 
         logger.info("[rag] answered using %d sources", len(sources))
         return RAGResponse(answer=answer, sources=sources, cached=False)
+
+
+def _is_refusal(answer: str) -> bool:
+    lower = answer.lower()
+    return any(phrase in lower for phrase in _REFUSAL_PHRASES)
 
 
 def _build_context(results: list[dict]) -> str:

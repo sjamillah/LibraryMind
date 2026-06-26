@@ -54,6 +54,8 @@ def ask(body: QueryRequest) -> QueryResponse:
             status_code=429,
             detail="Too many requests — please wait a moment before trying again.",
         )
+    except RuntimeError as exc:
+        raise HTTPException(status_code=503, detail=str(exc))
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc))
 
