@@ -8,8 +8,8 @@ from app.services.classification_service import (
 )
 
 _VALID_JSON = (
-    '{"category": "renewal", "priority": "low", '
-    '"sentiment": "neutral", "requires_human": false}'
+    '{"category": "borrowing", "priority": "low", "sentiment": "neutral", '
+    '"suggested_department": "Circulation", "summary": "Patron wants to renew a book."}'
 )
 
 
@@ -24,23 +24,35 @@ def _make_service(response: str) -> ClassificationService:
 class TestClassify:
     def test_parses_clean_json(self):
         result = _make_service(_VALID_JSON).classify("Please renew my book.")
-        assert result.category == "renewal"
+        assert result.category == "borrowing"
         assert result.priority == "low"
         assert result.sentiment == "neutral"
-        assert result.requires_human is False
+        assert result.suggested_department == "Circulation"
+        assert result.summary == "Patron wants to renew a book."
 
     def test_strips_json_code_fence(self):
         result = _make_service(f"```json\n{_VALID_JSON}\n```").classify("ticket")
-        assert result.category == "renewal"
+        assert result.category == "borrowing"
 
     def test_strips_plain_code_fence(self):
         result = _make_service(f"```\n{_VALID_JSON}\n```").classify("ticket")
-        assert result.category == "renewal"
+        assert result.category == "borrowing"
 
-    def test_requires_human_coerced_to_bool(self):
-        raw = '{"category": "complaint", "priority": "high", "sentiment": "negative", "requires_human": true}'
-        result = _make_service(raw).classify("I am unhappy.")
-        assert result.requires_human is True
+    def test_urgent_priority_accepted(self):
+        raw = (
+            '{"category": "technical", "priority": "urgent", "sentiment": "negative", '
+            '"suggested_department": "IT Support", "summary": "Self-checkout is down."}'
+        )
+        result = _make_service(raw).classify("The self-checkout machine is completely broken.")
+        assert result.priority == "urgent"
+
+    def test_suggested_department_returned(self):
+        result = _make_service(_VALID_JSON).classify("ticket")
+        assert result.suggested_department == "Circulation"
+
+    def test_summary_returned(self):
+        result = _make_service(_VALID_JSON).classify("ticket")
+        assert result.summary == "Patron wants to renew a book."
 
 
 # ── temperature ───────────────────────────────────────────────────────────────

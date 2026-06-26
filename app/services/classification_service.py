@@ -15,10 +15,12 @@ _SYSTEM_PROMPT = """\
 You are a library support ticket classifier.
 
 Classify the ticket into structured JSON with these exact keys and valid values:
-- "category": one of "book_request", "renewal", "complaint", "inquiry", "damage_report"
-- "priority": one of "low", "medium", "high"
+- "category": one of "account", "borrowing", "technical", "complaint", "suggestion", "general"
+- "priority": one of "low", "medium", "high", "urgent"
 - "sentiment": one of "positive", "neutral", "negative"
-- "requires_human": true or false
+- "suggested_department": the department best suited to handle this ticket, chosen from
+  "IT Support", "Circulation", "Member Services", "Management", "General Enquiries"
+- "summary": one sentence describing what the patron needs
 
 Return ONLY the JSON object. Do not wrap it in code fences or add any explanation.\
 """
@@ -29,7 +31,8 @@ class ClassificationResult:
     category: str
     priority: str
     sentiment: str
-    requires_human: bool
+    suggested_department: str
+    summary: str
 
 
 class ClassificationService:
@@ -49,7 +52,8 @@ class ClassificationService:
             category=data["category"],
             priority=data["priority"],
             sentiment=data["sentiment"],
-            requires_human=bool(data["requires_human"]),
+            suggested_department=data["suggested_department"],
+            summary=data["summary"],
         )
 
 

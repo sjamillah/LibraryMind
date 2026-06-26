@@ -12,19 +12,20 @@ class ClassifyRequest(BaseModel):
         ...,
         min_length=10,
         max_length=2000,
-        examples=["A patron is requesting a renewal for 'Dune' but the system shows it is unavailable."],
+        examples=["My library card isn't working at the self-checkout and I'm very frustrated."],
     )
 
 
 class ClassifyResponse(BaseModel):
-    category: str = Field(description="Type of support ticket")
-    priority: str = Field(description="Urgency level: low, medium, or high")
-    sentiment: str = Field(description="Patron sentiment: positive, neutral, or negative")
-    requires_human: bool = Field(description="Whether a human librarian should handle this")
+    category: str = Field(description="account | borrowing | technical | complaint | suggestion | general")
+    priority: str = Field(description="low | medium | high | urgent")
+    sentiment: str = Field(description="positive | neutral | negative")
+    suggested_department: str = Field(description="Department best suited to handle this ticket")
+    summary: str = Field(description="One-sentence description of what the patron needs")
 
 
 @router.post(
-    "/",
+    "/ticket",
     response_model=ClassifyResponse,
     summary="Classify a library support ticket",
     response_description="Structured classification of the ticket",
@@ -33,8 +34,9 @@ def classify(body: ClassifyRequest) -> ClassifyResponse:
     """
     Submit a raw support ticket and receive a structured classification.
 
-    The AI returns exact JSON keys with constrained values — no freeform text.
-    Markdown code fences are stripped before parsing. Malformed AI output raises a 500.
+    Returns category, priority, sentiment, suggested routing department,
+    and a one-sentence summary. The AI uses low temperature for consistent,
+    deterministic outputs. Markdown code fences are stripped before parsing.
     """
     try:
         result = classification_service.classify(body.ticket)
@@ -43,6 +45,8 @@ def classify(body: ClassifyRequest) -> ClassifyResponse:
             status_code=429,
             detail="Too many requests — please wait a moment before trying again.",
         )
+    except RuntimeError as exc:
+        raise HTTPException(status_code=503, detail=str(exc))
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc))
 
@@ -50,5 +54,6 @@ def classify(body: ClassifyRequest) -> ClassifyResponse:
         category=result.category,
         priority=result.priority,
         sentiment=result.sentiment,
-        requires_human=result.requires_human,
+        suggested_department=result.suggested_department,
+        summary=result.summary,
     )
