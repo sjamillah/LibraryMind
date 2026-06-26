@@ -1,0 +1,49 @@
+from app.providers.base import AIProvider
+from app.infrastructure.rate_limiter import rate_limiter, RateLimitExceeded  # noqa: F401 — re-exported for callers
+from app.infrastructure.usage_tracker import usage_tracker
+from app.infrastructure.cache import cache
+
+
+class ResilientAIService:
+    def __init__(self, providers: list[AIProvider]):
+        self.providers = providers
+
+    def generate(self, prompt: str, system: str = "", temperature: float = 0.7, max_tokens: int = 1000) -> str:
+        # Cache hits bypass rate limiting — no provider is called, no cost incurred
+        cache_key = cache.make_key(prompt, system)
+        cached = cache.get(cache_key)
+        if cached is not None:
+            return cached
+
+        rate_limiter.acquire()  # RateLimitExceeded bubbles up to the caller
+
+        errors: list[str] = []
+        for provider in self.providers:
+            try:
+                response = provider.generate(prompt, system, temperature, max_tokens)
+                usage_tracker.record(
+                    provider=provider.provider_name,
+                    model=provider.model_name,
+                    prompt_text=f"{system}\n{prompt}" if system else prompt,
+                    completion_text=response,
+                )
+                cache.set(cache_key, response)
+                return response
+            except Exception as e:
+                errors.append(f"{type(provider).__name__}: {e}")
+
+        raise RuntimeError(f"All providers failed: {errors}")
+
+
+def build_service() -> ResilientAIService:
+    """Factory that orders providers based on PRIMARY_PROVIDER config."""
+    from app.providers.openai_provider import OpenAIProvider
+    from app.providers.anthropic_provider import AnthropicAIProvider
+    from app.core.config import settings
+
+    openai = OpenAIProvider()
+    anthropic = AnthropicAIProvider()
+
+    if settings.PRIMARY_PROVIDER.lower() == "openai":
+        return ResilientAIService([openai, anthropic])
+    return ResilientAIService([anthropic, openai])
