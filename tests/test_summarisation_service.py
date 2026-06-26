@@ -8,10 +8,11 @@ from app.services.summarisation_service import (
 )
 
 _VALID_JSON = (
-    '{"summary": "Patrons loved this book.", '
-    '"overall_sentiment": "positive", '
+    '{"overall_sentiment": "positive", "average_rating": 4.5, '
     '"key_themes": ["world-building", "depth"], '
-    '"recommended": true}'
+    '"praise": ["rich world-building", "compelling characters"], '
+    '"criticism": ["slow start"], '
+    '"recommendation": "Highly recommended for fans of epic science fiction."}'
 )
 
 
@@ -26,26 +27,30 @@ def _make_service(response: str) -> SummarisationService:
 class TestSummarise:
     def test_parses_clean_json(self):
         result = _make_service(_VALID_JSON).summarise(["Great!", "Loved it."])
-        assert result.summary == "Patrons loved this book."
         assert result.overall_sentiment == "positive"
+        assert result.average_rating == 4.5
         assert result.key_themes == ["world-building", "depth"]
-        assert result.recommended is True
+        assert result.praise == ["rich world-building", "compelling characters"]
+        assert result.criticism == ["slow start"]
+        assert "recommended" in result.recommendation.lower()
 
     def test_strips_json_code_fence(self):
         result = _make_service(f"```json\n{_VALID_JSON}\n```").summarise(["review"])
-        assert result.summary == "Patrons loved this book."
+        assert result.overall_sentiment == "positive"
 
     def test_strips_plain_code_fence(self):
         result = _make_service(f"```\n{_VALID_JSON}\n```").summarise(["review"])
-        assert result.summary == "Patrons loved this book."
+        assert result.overall_sentiment == "positive"
 
-    def test_recommended_coerced_to_bool(self):
+    def test_average_rating_coerced_to_float(self):
         raw = (
-            '{"summary": "Mixed.", "overall_sentiment": "mixed", '
-            '"key_themes": ["pacing"], "recommended": false}'
+            '{"overall_sentiment": "mixed", "average_rating": 3, '
+            '"key_themes": ["pacing"], "praise": [], "criticism": ["slow"], '
+            '"recommendation": "For patient readers only."}'
         )
         result = _make_service(raw).summarise(["Mediocre."])
-        assert result.recommended is False
+        assert isinstance(result.average_rating, float)
+        assert result.average_rating == 3.0
 
     def test_all_reviews_included_in_prompt(self):
         mock_ai = MagicMock()
@@ -56,6 +61,15 @@ class TestSummarise:
         prompt_arg = mock_ai.generate.call_args[1]["prompt"]
         for r in reviews:
             assert r in prompt_arg
+
+    def test_empty_criticism_list_accepted(self):
+        raw = (
+            '{"overall_sentiment": "positive", "average_rating": 5.0, '
+            '"key_themes": ["plot"], "praise": ["excellent"], "criticism": [], '
+            '"recommendation": "A must-read."}'
+        )
+        result = _make_service(raw).summarise(["Perfect book!"])
+        assert result.criticism == []
 
 
 # ── temperature ───────────────────────────────────────────────────────────────

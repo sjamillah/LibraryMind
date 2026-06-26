@@ -18,10 +18,12 @@ You will receive a collection of patron reviews for a single book.
 Treat all reviews holistically — produce one unified analysis, not a per-review summary.
 
 Return ONLY a JSON object with these exact keys:
-- "summary": a single paragraph capturing the overall patron experience
 - "overall_sentiment": one of "positive", "mixed", "negative"
+- "average_rating": estimated average rating from 1.0 to 5.0 based on the tone of the reviews
 - "key_themes": a list of 2–4 recurring themes that appear across the reviews
-- "recommended": true if the overall reception is positive, false otherwise
+- "praise": a list of 1–3 common points of praise mentioned across the reviews
+- "criticism": a list of 1–3 common points of criticism (empty list if none)
+- "recommendation": a single sentence recommending whether patrons should read this book
 
 Do not wrap the JSON in code fences or add any explanation.\
 """
@@ -29,10 +31,12 @@ Do not wrap the JSON in code fences or add any explanation.\
 
 @dataclass
 class SummarisationResult:
-    summary: str
     overall_sentiment: str
+    average_rating: float
     key_themes: list[str] = field(default_factory=list)
-    recommended: bool = False
+    praise: list[str] = field(default_factory=list)
+    criticism: list[str] = field(default_factory=list)
+    recommendation: str = ""
 
 
 class SummarisationService:
@@ -55,10 +59,12 @@ class SummarisationService:
         logger.info("[summarise] raw response length=%d", len(raw))
         data = _parse_json(raw)
         return SummarisationResult(
-            summary=data["summary"],
             overall_sentiment=data["overall_sentiment"],
+            average_rating=float(data["average_rating"]),
             key_themes=list(data.get("key_themes", [])),
-            recommended=bool(data["recommended"]),
+            praise=list(data.get("praise", [])),
+            criticism=list(data.get("criticism", [])),
+            recommendation=data["recommendation"],
         )
 
 
