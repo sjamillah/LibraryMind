@@ -7,7 +7,7 @@ from app.core.config import settings
 from app.infrastructure.cache import cache
 from app.infrastructure.rate_limiter import rate_limiter
 from app.infrastructure.vector_store import vector_store
-from app.providers.resilient_service import build_service
+from app.providers.resilient_service import ResilientAIService, ai_service as _default_ai_service
 from app.services.embedding_service import embedding_service
 
 logger = logging.getLogger(__name__)
@@ -84,8 +84,8 @@ class RAGResponse:
 
 
 class RAGEngine:
-    def __init__(self) -> None:
-        self._service = build_service()
+    def __init__(self, ai_service: ResilientAIService | None = None) -> None:
+        self._service = ai_service or _default_ai_service
 
     def query(self, question: str) -> RAGResponse:
         """Embed, search, filter, generate — returns answer + sources + cache flag."""

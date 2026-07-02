@@ -3,7 +3,6 @@ from unittest.mock import MagicMock
 
 from app.services.summarisation_service import (
     SummarisationService,
-    SummarisationResult,
     _strip_fences,
 )
 

@@ -25,14 +25,12 @@ def engine():
     with patch("app.services.rag_engine.cache") as mock_cache, \
          patch("app.services.rag_engine.rate_limiter") as mock_rl, \
          patch("app.services.rag_engine.vector_store") as mock_vs, \
-         patch("app.services.rag_engine.embedding_service") as mock_emb, \
-         patch("app.services.rag_engine.build_service") as mock_build:
+         patch("app.services.rag_engine.embedding_service") as mock_emb:
 
         mock_cache.get.return_value = None
         mock_emb.embed.return_value = [0.1] * 384
-        mock_build.return_value = MagicMock()
 
-        eng = RAGEngine()
+        eng = RAGEngine(ai_service=MagicMock())
         eng._mock_cache = mock_cache
         eng._mock_rl = mock_rl
         eng._mock_vs = mock_vs

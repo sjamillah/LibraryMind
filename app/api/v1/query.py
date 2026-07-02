@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
-from app.infrastructure.rate_limiter import RateLimitExceeded
+from app.providers.resilient_service import RateLimitExceeded
 from app.services.rag_engine import rag_engine
 
 router = APIRouter(prefix="/query", tags=["Query"])

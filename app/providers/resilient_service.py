@@ -1,5 +1,5 @@
 from app.providers.base import AIProvider
-from app.infrastructure.rate_limiter import rate_limiter, RateLimitExceeded  # noqa: F401 — re-exported for callers
+from app.infrastructure.rate_limiter import rate_limiter, RateLimitExceeded
 from app.infrastructure.usage_tracker import usage_tracker
 from app.infrastructure.cache import cache
 
@@ -48,3 +48,10 @@ def build_service() -> ResilientAIService:
     if settings.PRIMARY_PROVIDER.lower() == "openai":
         return ResilientAIService([openai, anthropic])
     return ResilientAIService([anthropic, openai])
+
+
+# Single shared instance — every service gets the same fallback policy and
+# provider order. Built once here (composition root) instead of each service
+# calling build_service() independently, matching how cache/rate_limiter/
+# usage_tracker are already shared singletons.
+ai_service = build_service()

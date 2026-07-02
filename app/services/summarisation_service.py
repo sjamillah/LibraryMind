@@ -5,7 +5,7 @@ import logging
 import re
 from dataclasses import dataclass, field
 
-from app.providers.resilient_service import ResilientAIService, build_service
+from app.providers.resilient_service import ResilientAIService, ai_service as _default_ai_service
 
 logger = logging.getLogger(__name__)
 
@@ -41,7 +41,7 @@ class SummarisationResult:
 
 class SummarisationService:
     def __init__(self, ai_service: ResilientAIService | None = None) -> None:
-        self._service = ai_service or build_service()
+        self._service = ai_service or _default_ai_service
 
     def summarise(self, reviews: list[str]) -> SummarisationResult:
         """Summarise a list of patron reviews into a single holistic analysis."""

@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 
 from app.core.config import settings
 from app.infrastructure.vector_store import vector_store
-from app.providers.resilient_service import ResilientAIService, build_service
+from app.providers.resilient_service import ResilientAIService, ai_service as _default_ai_service
 from app.services.embedding_service import embedding_service
 
 logger = logging.getLogger(__name__)
@@ -64,7 +64,7 @@ class ChatService:
         ai_service: ResilientAIService | None = None,
         store: ConversationStore | None = None,
     ) -> None:
-        self._service = ai_service or build_service()
+        self._service = ai_service or _default_ai_service
         self._store = store if store is not None else conversation_store
 
     def chat(self, message: str, conversation_id: str | None = None) -> ChatResponse:

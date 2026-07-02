@@ -11,7 +11,7 @@ class Settings:
     PRIMARY_PROVIDER: str = os.getenv("PRIMARY_PROVIDER", "openai")
     RATE_LIMIT_PER_MINUTE: int = int(os.getenv("RATE_LIMIT_PER_MINUTE", "20"))
     REDIS_URL: str = os.getenv("REDIS_URL", "")
-    EMBEDDING_MODEL_NAME: str = os.getenv("EMBEDDING_MODEL_NAME", "")
+    EMBEDDING_MODEL_NAME: str = os.getenv("EMBEDDING_MODEL_NAME", "all-MiniLM-L6-v2")
     RAG_RELEVANCE_THRESHOLD: float = float(os.getenv("RAG_RELEVANCE_THRESHOLD", "0.4"))
 
     OPENAI_API_MODEL: str = "gpt-3.5-turbo"

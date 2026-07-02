@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
-from app.infrastructure.rate_limiter import RateLimitExceeded
+from app.providers.resilient_service import RateLimitExceeded
 from app.services.chat_service import chat_service
 
 router = APIRouter(prefix="/chat", tags=["Chat"])
