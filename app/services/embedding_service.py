@@ -2,18 +2,17 @@ import logging
 
 from sentence_transformers import SentenceTransformer
 
+from app.core.config import settings
 from app.infrastructure.cache import cache
 
 logger = logging.getLogger(__name__)
-
-_MODEL_NAME = "all-MiniLM-L6-v2"
 _EMBED_CACHE_TTL = 86_400  # 24 h
 
 
 class EmbeddingService:
     def __init__(self) -> None:
-        logger.info("[embedding] loading %s", _MODEL_NAME)
-        self._model = SentenceTransformer(_MODEL_NAME)
+        logger.info("[embedding] loading %s", settings.EMBEDDING_MODEL_NAME)
+        self._model = SentenceTransformer(settings.EMBEDDING_MODEL_NAME)
         logger.info("[embedding] model ready")
 
     def embed(self, text: str) -> list[float]:

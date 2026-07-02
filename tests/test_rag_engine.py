@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import MagicMock, patch
 
-from app.services.rag_engine import RAGEngine, RAGResponse, Source, _DISTANCE_THRESHOLD, _TOP_K
+from app.services.rag_engine import RAGEngine, RAGResponse, Source, _DISTANCE_THRESHOLD, _TOP_K, _is_refusal
 
 
 # ── fixtures ──────────────────────────────────────────────────────────────────
@@ -25,14 +25,12 @@ def engine():
     with patch("app.services.rag_engine.cache") as mock_cache, \
          patch("app.services.rag_engine.rate_limiter") as mock_rl, \
          patch("app.services.rag_engine.vector_store") as mock_vs, \
-         patch("app.services.rag_engine.embedding_service") as mock_emb, \
-         patch("app.services.rag_engine.build_service") as mock_build:
+         patch("app.services.rag_engine.embedding_service") as mock_emb:
 
         mock_cache.get.return_value = None
         mock_emb.embed.return_value = [0.1] * 384
-        mock_build.return_value = MagicMock()
 
-        eng = RAGEngine()
+        eng = RAGEngine(ai_service=MagicMock())
         eng._mock_cache = mock_cache
         eng._mock_rl = mock_rl
         eng._mock_vs = mock_vs
@@ -160,3 +158,57 @@ class TestPipeline:
         engine.query("meaning of life")
         engine._service.generate.assert_not_called()
         engine._mock_cache.set.assert_not_called()
+
+
+# ── refusal detection ─────────────────────────────────────────────────────────
+
+class TestRefusalDetection:
+    def test_sources_cleared_when_ai_declines(self, engine):
+        engine._mock_vs.search.return_value = [_make_result("Dune", "Herbert", 0.2)]
+        engine._service.generate.return_value = "I couldn't find any books about photography."
+        response = engine.query("photography")
+        assert response.sources == []
+
+    def test_answer_preserved_on_refusal(self, engine):
+        engine._mock_vs.search.return_value = [_make_result("Dune", "Herbert", 0.2)]
+        refusal = "I couldn't find any books matching your query."
+        engine._service.generate.return_value = refusal
+        response = engine.query("photography")
+        assert response.answer == refusal
+
+    def test_refusal_cached_with_empty_sources(self, engine):
+        engine._mock_vs.search.return_value = [_make_result("Dune", "Herbert", 0.2)]
+        engine._service.generate.return_value = "There are no books about photography."
+        engine.query("photography")
+        cached = engine._mock_cache.set.call_args[0][1]
+        assert cached["sources"] == []
+
+    def test_sources_returned_when_ai_answers_normally(self, engine):
+        engine._mock_vs.search.return_value = [_make_result("Dune", "Herbert", 0.2)]
+        engine._service.generate.return_value = "Dune is a great sci-fi book."
+        response = engine.query("desert planets")
+        assert len(response.sources) == 1
+
+
+class TestIsRefusal:
+    @pytest.mark.parametrize("phrase", [
+        "I couldn't find any books",
+        "could not find anything relevant",
+        "there are no books about this",
+        "no titles match your query",
+        "nothing relevant in the catalogue",
+        "not in the catalogue",
+        "not in our catalogue",
+        "don't have any books",
+        "do not have any titles",
+        "not available in our collection",
+        "no results were found",
+    ])
+    def test_known_refusal_phrases(self, phrase):
+        assert _is_refusal(phrase) is True
+
+    def test_normal_answer_not_a_refusal(self):
+        assert _is_refusal("Dune by Frank Herbert is a great science fiction novel.") is False
+
+    def test_case_insensitive(self):
+        assert _is_refusal("I COULDN'T FIND any books.") is True
