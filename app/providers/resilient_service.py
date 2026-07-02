@@ -9,6 +9,7 @@ class ResilientAIService:
         self.providers = providers
 
     def generate(self, prompt: str, system: str = "", temperature: float = 0.7, max_tokens: int = 1000) -> str:
+        """Try providers in order, fall back on failure. Returns the first successful response."""
         # Cache hits bypass rate limiting — no provider is called, no cost incurred
         cache_key = cache.make_key(prompt, system)
         cached = cache.get(cache_key)
