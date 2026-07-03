@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
-from app.providers.resilient_service import RateLimitExceeded
+from app.providers.resilient_service import RateLimitExceeded, AllProvidersFailedError
 from app.services.rag_engine import rag_engine
 
 router = APIRouter(prefix="/query", tags=["Query"])
@@ -54,7 +54,7 @@ def ask(body: QueryRequest) -> QueryResponse:
             status_code=429,
             detail="Too many requests — please wait a moment before trying again.",
         )
-    except RuntimeError as exc:
+    except AllProvidersFailedError as exc:
         raise HTTPException(status_code=503, detail=str(exc))
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc))

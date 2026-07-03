@@ -1,4 +1,5 @@
 from app.providers.base import AIProvider
+from app.core.exceptions import AllProvidersFailedError
 from app.infrastructure.rate_limiter import rate_limiter, RateLimitExceeded
 from app.infrastructure.usage_tracker import usage_tracker
 from app.infrastructure.cache import cache
@@ -33,7 +34,7 @@ class ResilientAIService:
             except Exception as e:
                 errors.append(f"{type(provider).__name__}: {e}")
 
-        raise RuntimeError(f"All providers failed: {errors}")
+        raise AllProvidersFailedError(f"All providers failed: {errors}")
 
 
 def build_service() -> ResilientAIService:

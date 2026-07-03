@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
-from app.providers.resilient_service import RateLimitExceeded
+from app.providers.resilient_service import RateLimitExceeded, AllProvidersFailedError
 from app.services.classification_service import classification_service
 
 router = APIRouter(prefix="/classify", tags=["Classify"])
@@ -45,7 +45,7 @@ def classify(body: ClassifyRequest) -> ClassifyResponse:
             status_code=429,
             detail="Too many requests — please wait a moment before trying again.",
         )
-    except RuntimeError as exc:
+    except AllProvidersFailedError as exc:
         raise HTTPException(status_code=503, detail=str(exc))
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc))

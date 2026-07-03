@@ -77,6 +77,7 @@ The interactive API docs are available at `http://localhost:8000/docs`.
 | `EMBEDDING_MODEL_NAME` | No | `all-MiniLM-L6-v2` | sentence-transformers model used for embeddings |
 | `RAG_RELEVANCE_THRESHOLD` | No | `0.4` | Cosine distance cut-off (lower = stricter) |
 | `CHROMA_PATH` | No | `.chroma` | Where ChromaDB persists its data |
+| `LOG_LEVEL` | No | `INFO` | Root logger level (`DEBUG`, `INFO`, `WARNING`, `ERROR`) |
 
 The app fails fast at startup with a clear `RuntimeError` if `AMALI_GATEWAY_URL` or `AMALI_API_KEY` is missing.
 

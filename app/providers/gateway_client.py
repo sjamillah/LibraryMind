@@ -11,6 +11,7 @@ if __package__ in {None, ""}:
     sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 from app.core.config import settings
+from app.core.exceptions import ConfigurationError, GatewayRequestError
 
 logger = logging.getLogger(__name__)
 
@@ -75,7 +76,7 @@ def call_gateway(
             if attempt < max_retries - 1:
                 time.sleep(2 ** attempt)
 
-    raise RuntimeError(f"Gateway call failed after {max_retries} attempts: {last_error}")
+    raise GatewayRequestError(f"Gateway call failed after {max_retries} attempts: {last_error}")
 
 
 def _build_messages(prompt: str, system: str = "") -> list:
@@ -99,9 +100,9 @@ def main() -> int:
     args = parser.parse_args()
 
     if not args.base_url:
-        raise RuntimeError("AMALI_GATEWAY_URL is missing from .env")
+        raise ConfigurationError("AMALI_GATEWAY_URL is missing from .env")
     if not args.api_key:
-        raise RuntimeError("AMALI_API_KEY is missing from .env")
+        raise ConfigurationError("AMALI_API_KEY is missing from .env")
 
     model = args.model or _default_model(args.provider)
     response_text = call_gateway(

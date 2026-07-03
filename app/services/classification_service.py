@@ -5,6 +5,7 @@ import logging
 import re
 from dataclasses import dataclass
 
+from app.core.exceptions import InvalidAIResponseError
 from app.providers.resilient_service import ResilientAIService, ai_service as _default_ai_service
 
 logger = logging.getLogger(__name__)
@@ -69,7 +70,7 @@ def _parse_json(raw: str) -> dict:
     try:
         return json.loads(cleaned)
     except json.JSONDecodeError as exc:
-        raise ValueError(
+        raise InvalidAIResponseError(
             f"Classification response was not valid JSON.\n"
             f"Parse error: {exc}\n"
             f"Raw response:\n{raw}"

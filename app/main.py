@@ -1,7 +1,17 @@
-from fastapi import FastAPI
+import logging
+import time
+
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.core.logging_config import configure_logging
+
+configure_logging()  # before the router imports below, so startup-time logs
+                      # (model loading, ChromaDB collection ready) are visible
+
 from app.api.v1 import books, chat, classify, query, search, summarise
+
+logger = logging.getLogger(__name__)
 
 _DESCRIPTION = """
 **LibraryMind** is an AI-powered library assistant that helps patrons discover books
@@ -76,6 +86,19 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.middleware("http")
+async def log_requests(request: Request, call_next):
+    start = time.perf_counter()
+    response = await call_next(request)
+    duration_ms = (time.perf_counter() - start) * 1000
+    logger.info(
+        "%s %s -> %d (%.1fms)",
+        request.method, request.url.path, response.status_code, duration_ms,
+    )
+    return response
+
 
 app.include_router(search.router, prefix="/api/v1")
 app.include_router(query.router, prefix="/api/v1")
