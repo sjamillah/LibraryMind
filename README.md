@@ -17,7 +17,7 @@ LibraryMind follows a strict four-layer separation:
 
 - Python 3.10+
 - Redis (optional — the app falls back to an in-memory store if Redis is unavailable)
-- API key for at least one provider (OpenAI or Anthropic via the Amali gateway)
+- An Amali gateway URL and API key (routes to both OpenAI and Anthropic — see [Environment Variables](#environment-variables))
 
 ## Setup
 
@@ -51,10 +51,10 @@ Edit `.env` — see the [Environment Variables](#environment-variables) section 
 
 ### 4. Seed the vector database
 
-Run once to embed all 20+ books and store them in ChromaDB:
+Run once to embed all 24 books and store them in ChromaDB:
 
 ```bash
-python scripts/seed_db.py
+python scripts/seed.py
 ```
 
 ### 5. Start the server
@@ -69,16 +69,16 @@ The interactive API docs are available at `http://localhost:8000/docs`.
 
 | Variable | Required | Default | Description |
 |---|---|---|---|
-| `OPENAI_API_KEY` | One of these two is required | — | OpenAI API key |
-| `ANTHROPIC_API_KEY` | One of these two is required | — | Anthropic API key (or Amali gateway key) |
-| `OPENAI_BASE_URL` | No | OpenAI default | Override base URL (e.g. Amali gateway) |
-| `ANTHROPIC_BASE_URL` | No | Anthropic default | Override base URL |
-| `PRIMARY_PROVIDER` | No | `openai` | Which provider to try first (`openai` or `anthropic`) |
-| `RATE_LIMIT_PER_MINUTE` | No | `20` | Max AI requests per minute |
-| `REDIS_URL` | No | `redis://localhost:6379` | Redis connection string |
-| `CACHE_TTL` | No | `3600` | Response cache time-to-live in seconds |
+| `AMALI_GATEWAY_URL` | Yes | — | Base URL of the Amali gateway (routes both OpenAI and Anthropic calls) |
+| `AMALI_API_KEY` | Yes | — | API key for the Amali gateway |
+| `PRIMARY_PROVIDER` | No | `openai` | Which provider to try first (`openai` or `anthropic`); the other is the automatic fallback |
+| `RATE_LIMIT_PER_MINUTE` | No | `20` | Max AI requests per minute (token-bucket rate limiter) |
+| `REDIS_URL` | No | *(unset — falls back to in-memory cache)* | Redis connection string |
+| `EMBEDDING_MODEL_NAME` | No | `all-MiniLM-L6-v2` | sentence-transformers model used for embeddings |
 | `RAG_RELEVANCE_THRESHOLD` | No | `0.4` | Cosine distance cut-off (lower = stricter) |
-| `CHROMA_PATH` | No | `./chroma_db` | Where ChromaDB persists its data |
+| `CHROMA_PATH` | No | `.chroma` | Where ChromaDB persists its data |
+
+The app fails fast at startup with a clear `RuntimeError` if `AMALI_GATEWAY_URL` or `AMALI_API_KEY` is missing.
 
 ## API Endpoints
 
@@ -273,15 +273,15 @@ python scripts/smoke_test.py
 LibraryMind/
 ├── app/
 │   ├── api/v1/          # FastAPI routers (books, chat, classify, query, search, summarise)
-│   ├── core/            # Settings (pydantic-settings)
+│   ├── core/            # Settings (os.getenv-based config class, fails fast on missing keys)
 │   ├── infrastructure/  # ChromaDB, Redis cache, rate limiter, usage tracker
 │   ├── providers/       # OpenAI + Anthropic providers, ResilientAIService
 │   ├── services/        # RAG engine, chat, classification, summarisation, embedding
 │   └── main.py          # FastAPI app, CORS, router registration, /health
 ├── data/
-│   └── books.json       # 20+ book catalogue
+│   └── books.json       # 24-book catalogue across 6 genres
 ├── scripts/
-│   ├── seed_db.py       # Populate ChromaDB from books.json
+│   ├── seed.py          # Populate ChromaDB from books.json
 │   ├── smoke_test.py    # Provider/infrastructure integration test
 │   └── smoke_test_api.py # HTTP endpoint smoke test
 ├── tests/               # pytest unit tests

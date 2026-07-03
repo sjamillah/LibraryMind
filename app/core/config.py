@@ -13,6 +13,7 @@ class Settings:
     REDIS_URL: str = os.getenv("REDIS_URL", "")
     EMBEDDING_MODEL_NAME: str = os.getenv("EMBEDDING_MODEL_NAME", "all-MiniLM-L6-v2")
     RAG_RELEVANCE_THRESHOLD: float = float(os.getenv("RAG_RELEVANCE_THRESHOLD", "0.4"))
+    CHROMA_PATH: str = os.getenv("CHROMA_PATH", ".chroma")
 
     OPENAI_API_MODEL: str = "gpt-3.5-turbo"
     ANTHROPIC_API_MODEL: str = "claude-3-5-sonnet-20241022"

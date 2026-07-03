@@ -2,16 +2,16 @@ import logging
 
 import chromadb
 
-logger = logging.getLogger(__name__)
+from app.core.config import settings
 
-_CHROMA_PATH = ".chroma"
+logger = logging.getLogger(__name__)
 
 
 class VectorStore:
     # ChromaDB returns cosine distance (0 = identical, 1 = opposite) — not similarity.
 
     def __init__(self, collection_name: str = "books") -> None:
-        self._client = chromadb.PersistentClient(path=_CHROMA_PATH)
+        self._client = chromadb.PersistentClient(path=settings.CHROMA_PATH)
         self._collection = self._client.get_or_create_collection(
             name=collection_name,
             metadata={"hnsw:space": "cosine"},
