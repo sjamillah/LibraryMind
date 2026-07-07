@@ -82,6 +82,13 @@ def run(client: httpx.Client) -> None:
     check("Off-topic ask returns 200", r.status_code == 200)
     check("Off-topic ask returns empty sources", r.json().get("sources") == [])
 
+    cache_question = "What science fiction books do you have about desert planets?"
+    r = client.post("/api/v1/search/ask", json={"question": cache_question}, timeout=60)
+    check("Cache warm-up call returns 200", r.status_code == 200)
+    r = client.post("/api/v1/search/ask", json={"question": cache_question}, timeout=60)
+    check("Repeated question returns 200", r.status_code == 200)
+    check("Repeated question is served from cache (cached=true)", r.json().get("cached") is True)
+
     # ── Query (legacy) ────────────────────────────────────────────────────────
     print("\n=== Query (legacy path) ===")
     r = client.post(

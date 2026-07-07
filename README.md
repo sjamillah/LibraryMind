@@ -75,7 +75,7 @@ The interactive API docs are available at `http://localhost:8000/docs`.
 | `RATE_LIMIT_PER_MINUTE` | No | `20` | Max AI requests per minute (token-bucket rate limiter) |
 | `REDIS_URL` | No | *(unset — falls back to in-memory cache)* | Redis connection string |
 | `EMBEDDING_MODEL_NAME` | No | `all-MiniLM-L6-v2` | sentence-transformers model used for embeddings |
-| `RAG_RELEVANCE_THRESHOLD` | No | `0.4` | Cosine distance cut-off (lower = stricter) |
+| `RAG_RELEVANCE_THRESHOLD` | No | `0.4` | Cosine distance cut-off (lower = stricter). Calibrated against the seeded catalogue + `all-MiniLM-L6-v2`: relevant matches for natural-language questions typically land in the 0.47–0.71 range, off-topic questions at 0.78+. |
 | `CHROMA_PATH` | No | `.chroma` | Where ChromaDB persists its data |
 | `LOG_LEVEL` | No | `INFO` | Root logger level (`DEBUG`, `INFO`, `WARNING`, `ERROR`) |
 

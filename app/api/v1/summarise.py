@@ -11,6 +11,7 @@ class SummariseRequest(BaseModel):
     reviews: list[str] = Field(
         ...,
         min_length=1,
+        max_length=50,
         examples=[["Loved the world-building.", "Dense but rewarding read.", "A timeless classic."]],
     )
 
