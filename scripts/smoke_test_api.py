@@ -12,6 +12,12 @@ import sys
 
 import httpx
 
+# Windows terminals default to cp1252, which can't print the arrows and
+# checkmarks below and crashes the whole script with UnicodeEncodeError.
+# Force UTF-8 so this runs the same on Windows, macOS, and Linux.
+if sys.stdout.encoding.lower() != "utf-8":
+    sys.stdout.reconfigure(encoding="utf-8")
+
 BASE_URL = "http://localhost:8000"
 PASS = "\033[92mPASS\033[0m"
 FAIL = "\033[91mFAIL\033[0m"
