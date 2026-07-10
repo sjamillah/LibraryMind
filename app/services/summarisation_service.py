@@ -59,9 +59,17 @@ class SummarisationService:
         )
         logger.info("[summarise] raw response length=%d", len(raw))
         data = _parse_json(raw)
+        _require_keys(data, ("overall_sentiment", "average_rating", "recommendation"), raw)
+        try:
+            average_rating = float(data["average_rating"])
+        except (TypeError, ValueError) as exc:
+            raise InvalidAIResponseError(
+                f"Summarisation response had a non-numeric average_rating: {data['average_rating']!r}.\n"
+                f"Raw response:\n{raw}"
+            ) from exc
         return SummarisationResult(
             overall_sentiment=data["overall_sentiment"],
-            average_rating=float(data["average_rating"]),
+            average_rating=average_rating,
             key_themes=list(data.get("key_themes", [])),
             praise=list(data.get("praise", [])),
             criticism=list(data.get("criticism", [])),
@@ -86,6 +94,18 @@ def _parse_json(raw: str) -> dict:
             f"Parse error: {exc}\n"
             f"Raw response:\n{raw}"
         ) from exc
+
+
+def _require_keys(data: dict, keys: tuple[str, ...], raw: str) -> None:
+    """Valid JSON can still be missing a field the schema requires — a plain
+    dict[key] would raise an unhandled KeyError that leaks a raw Python
+    exception message straight into the API response instead of a clear one."""
+    missing = [k for k in keys if k not in data]
+    if missing:
+        raise InvalidAIResponseError(
+            f"Summarisation response was missing required field(s): {', '.join(missing)}.\n"
+            f"Raw response:\n{raw}"
+        )
 
 
 summarisation_service = SummarisationService()

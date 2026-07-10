@@ -115,7 +115,7 @@ class RAGEngine:
 
         answer = self._service.generate(prompt=prompt, system=_SYSTEM_PROMPT)
 
-        if _is_refusal(answer):
+        if _is_refusal(answer) and not _mentions_any_title(answer, relevant):
             logger.info("[rag] AI declined — clearing sources")
             cache.set(cache_key, {"answer": answer, "sources": []})
             return RAGResponse(answer=answer, sources=[], cached=False)
@@ -148,6 +148,18 @@ class RAGEngine:
 def _is_refusal(answer: str) -> bool:
     lower = answer.lower()
     return any(phrase in lower for phrase in _REFUSAL_PHRASES)
+
+
+def _mentions_any_title(answer: str, relevant: list[dict]) -> bool:
+    """True if the answer actually names one of the retrieved books.
+
+    A refusal phrase like "there are no" can appear in an otherwise good
+    answer ("there are no OTHER books on this narrower theme") after the
+    model has already cited real titles. Checking for an actual citation
+    before clearing sources avoids treating that as a full refusal.
+    """
+    lower = answer.lower()
+    return any(r["metadata"]["title"].lower() in lower for r in relevant)
 
 
 def _build_context(results: list[dict]) -> str:

@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
+from app.core.exceptions import EmbeddingModelError
 from app.providers.resilient_service import RateLimitExceeded, AllProvidersFailedError
 from app.services.rag_engine import rag_engine
 
@@ -54,7 +55,7 @@ def ask(body: QueryRequest) -> QueryResponse:
             status_code=429,
             detail="Too many requests — please wait a moment before trying again.",
         )
-    except AllProvidersFailedError as exc:
+    except (AllProvidersFailedError, EmbeddingModelError) as exc:
         raise HTTPException(status_code=503, detail=str(exc))
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc))

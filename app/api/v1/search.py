@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
+from app.core.exceptions import EmbeddingModelError
 from app.providers.resilient_service import RateLimitExceeded, AllProvidersFailedError
 from app.infrastructure.vector_store import vector_store
 from app.services.embedding_service import embedding_service
@@ -48,6 +49,8 @@ def search_books(body: SearchBooksRequest) -> list[BookSearchResult]:
     try:
         query_vector = embedding_service.embed(body.query)
         results = vector_store.search(query_vector, top_k=body.limit)
+    except EmbeddingModelError as exc:
+        raise HTTPException(status_code=503, detail=str(exc))
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc))
 
@@ -106,7 +109,7 @@ def ask(body: AskRequest) -> AskResponse:
             status_code=429,
             detail="Too many requests — please wait a moment before trying again.",
         )
-    except AllProvidersFailedError as exc:
+    except (AllProvidersFailedError, EmbeddingModelError) as exc:
         raise HTTPException(status_code=503, detail=str(exc))
     except Exception as exc:
         raise HTTPException(status_code=500, detail=str(exc))

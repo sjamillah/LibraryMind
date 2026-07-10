@@ -29,3 +29,7 @@ class GatewayRequestError(RuntimeError):
 
 class InvalidAIResponseError(ValueError):
     """An AI response could not be parsed into the expected structured JSON."""
+
+
+class EmbeddingModelError(RuntimeError):
+    """The embedding model could not be loaded or failed to encode text."""

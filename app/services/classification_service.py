@@ -49,6 +49,7 @@ class ClassificationService:
         )
         logger.info("[classify] raw response length=%d", len(raw))
         data = _parse_json(raw)
+        _require_keys(data, ("category", "priority", "sentiment", "suggested_department", "summary"), raw)
         return ClassificationResult(
             category=data["category"],
             priority=data["priority"],
@@ -75,6 +76,18 @@ def _parse_json(raw: str) -> dict:
             f"Parse error: {exc}\n"
             f"Raw response:\n{raw}"
         ) from exc
+
+
+def _require_keys(data: dict, keys: tuple[str, ...], raw: str) -> None:
+    """Valid JSON can still be missing a field the schema requires — a plain
+    dict[key] would raise an unhandled KeyError that leaks a raw Python
+    exception message straight into the API response instead of a clear one."""
+    missing = [k for k in keys if k not in data]
+    if missing:
+        raise InvalidAIResponseError(
+            f"Classification response was missing required field(s): {', '.join(missing)}.\n"
+            f"Raw response:\n{raw}"
+        )
 
 
 classification_service = ClassificationService()
