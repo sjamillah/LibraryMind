@@ -18,7 +18,7 @@ from app.infrastructure.vector_store import vector_store
 
 def _build_embed_text(book: dict) -> str:
     # title + author so name queries hit; description for content queries
-    return f"{book['title']} by {book['author']}. {book['description']}"
+    return f"A book titled: {book['title']} by Author: {book['author']} published: {book['year']}"
 
 
 def main() -> None:
