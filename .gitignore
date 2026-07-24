@@ -2,6 +2,7 @@
 __pycache__/
 *.py[codz]
 *$py.class
+.chroma/
 
 # C extensions
 *.so

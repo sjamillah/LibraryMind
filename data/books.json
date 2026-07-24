@@ -1,0 +1,194 @@
+[
+  {
+    "id": "book-001",
+    "title": "Dune",
+    "author": "Frank Herbert",
+    "year": 1965,
+    "genre": "science fiction",
+    "description": "Set on the desert planet Arrakis, the only source of the spice melange — a substance that extends life, sharpens consciousness, and makes interstellar navigation possible — Dune follows Paul Atreides as his noble family is betrayed and destroyed in a struggle for control of the planet. Forced to survive among the native Fremen, Paul learns their desert culture, masters the giant sandworms they ride, and grows into the messianic figure they call Muad'Dib. Herbert weaves ecology, religion, imperial politics, and genetic destiny into an epic that redefined science fiction's ambition. The novel asks whether a chosen one who genuinely fulfils a prophecy is liberator or tyrant — and refuses to give a comfortable answer."
+  },
+  {
+    "id": "book-002",
+    "title": "The Martian",
+    "author": "Andy Weir",
+    "year": 2011,
+    "genre": "science fiction",
+    "description": "When a violent Martian dust storm forces his crew to abort their mission, astronaut Mark Watney is left behind on Mars — alone, with no way to contact Earth and supplies designed to last thirty-one days. Using his training as a botanist and mechanical engineer, Watney rigs up a way to grow potatoes inside the habitat and solves each survival problem with dark, self-deprecating humour and ruthless arithmetic. Meanwhile NASA scrambles to mount a rescue while his crew, already millions of miles away, wrestles with whether to turn back. Every problem Watney encounters is rooted in real physics and chemistry, making his improvised solutions feel genuinely triumphant rather than convenient. The novel is a sustained argument that human ingenuity and stubbornness are themselves a form of heroism."
+  },
+  {
+    "id": "book-003",
+    "title": "Hyperion",
+    "author": "Dan Simmons",
+    "year": 1989,
+    "genre": "science fiction",
+    "description": "Structured as a science-fiction Canterbury Tales, Hyperion follows seven pilgrims travelling to the Time Tombs on the planet Hyperion, where a terrifying creature known as the Shrike awaits — a being of blades that moves through time and kills without reason. Each pilgrim narrates their own story involving Hyperion: a soldier's trauma, a priest's crisis of faith, a poet's bargain, a scholar's dying child, a detective's conspiracy, a diplomat's shame. The novel is set against a crumbling interstellar civilisation threatened by alien forces and the artificial intelligences that secretly control it. Simmons blends literary allusion, hard science, and theological philosophy into a narrative that demands and rewards complete attention."
+  },
+  {
+    "id": "book-004",
+    "title": "Annihilation",
+    "author": "Jeff VanderMeer",
+    "year": 2014,
+    "genre": "science fiction",
+    "description": "A biologist — unnamed throughout — crosses into Area X, a mysterious coastal wilderness sealed from civilisation after an undefined catastrophe, on the twelfth expedition sent to study it. Previous teams have ended in mass suicide, cancer, or inexplicable violence, and the biologist arrives with a hidden agenda: to find what happened to her husband, who went on the previous mission. Written as field notes recovered after the fact, the novel is thick with ecological dread — a lighthouse contains a spiralling underground tunnel, a creature moves in the marshes, and the biologist herself begins to change. VanderMeer resists all explanation, making Area X feel genuinely, irreducibly alien rather than a puzzle awaiting a solution. The book is a meditation on how little we understand the natural world and how even the self can become foreign territory."
+  },
+  {
+    "id": "book-005",
+    "title": "The Left Hand of Darkness",
+    "author": "Ursula K. Le Guin",
+    "year": 1969,
+    "genre": "science fiction",
+    "description": "Genly Ai, a human envoy from an interplanetary alliance, is sent alone to the cold planet Gethen to persuade its nations to join the Ekumen — but Gethen's inhabitants are ambisexual, entering a fertile state called kemmer only periodically, and have no concept of fixed gender. As Genly navigates two rival nation-states locked in cold-war tension, he must overcome his own ingrained assumptions to trust his sole ally, the disgraced politician Estraven. Their harrowing journey across an arctic glacier forms the emotional core of a novel that uses alien biology to interrogate the assumptions embedded in human social structures. Le Guin's prose is spare and luminous, her world-building among the most rigorous in the genre."
+  },
+  {
+    "id": "book-006",
+    "title": "Wolf Hall",
+    "author": "Hilary Mantel",
+    "year": 2009,
+    "genre": "historical fiction",
+    "description": "Hilary Mantel reimagines the Tudor court of Henry VIII through the eyes of Thomas Cromwell, the blacksmith's son who rose to become the king's chief minister — a man of ruthless pragmatism, formidable intelligence, and surprising emotional depth. The novel centres on the years when Henry seeks to annul his marriage to Katherine of Aragon to wed Anne Boleyn, forcing England's break with Rome and reshaping the nation's religious identity. Mantel's present-tense narration places the reader inside Cromwell's calculating mind as he navigates a court where a single misstep means the scaffold. Her prose is dense and elliptical, pronouns slippery, scenes impressionistic — the past made strangely immediate."
+  },
+  {
+    "id": "book-007",
+    "title": "All the Light We Cannot See",
+    "author": "Anthony Doerr",
+    "year": 2014,
+    "genre": "historical fiction",
+    "description": "Set during World War II, the novel follows two parallel lives: Marie-Laure LeBlanc, a blind French girl who flees Paris with her father carrying a legendary diamond said to curse its keeper, and Werner Pfennig, an orphaned German boy whose talent for building and repairing radios earns him a place in the Hitler Youth and eventually a combat unit. Their paths converge in the besieged coastal city of Saint-Malo in 1944, where radio broadcasts — resistance signals, music, target coordinates — connect and destroy lives across the front. Doerr's sentences are extraordinarily precise, each short chapter rendering the physical world with phenomenal clarity: the smell of bread, the weight of a diamond, the texture of static. The novel asks what it means to do right in a world that has stripped away moral certainty."
+  },
+  {
+    "id": "book-008",
+    "title": "The Pillars of the Earth",
+    "author": "Ken Follett",
+    "year": 1989,
+    "genre": "historical fiction",
+    "description": "Set in twelfth-century England during the civil war known as the Anarchy, The Pillars of the Earth tells the story of the construction of a Gothic cathedral in the fictional town of Kingsbridge over fifty years. Prior Philip is the cathedral's political champion; the master builder Tom is its visionary architect; and the illegitimate Jack eventually becomes its greatest craftsman. Follett weaves together peasants, nobles, bishops, and kings against a turbulent backdrop of medieval power struggles, starvation, and religious conflict. The cathedral itself becomes a symbol of human aspiration against the grinding brutality of the age — a slow, collective act of faith carved in stone. Its thousand pages are dense with period detail and driven by genuine human stakes."
+  },
+  {
+    "id": "book-009",
+    "title": "The Bronze Horseman",
+    "author": "Paullina Simons",
+    "year": 2000,
+    "genre": "historical fiction",
+    "description": "Set during the Nazi siege of Leningrad — 872 days, one of the longest and most brutal sieges in modern warfare — the novel follows Tatiana Metanova, a young Russian woman, and Alexander Belov, a Soviet soldier with a dangerous secret about his American origins. They fall passionately in love against a backdrop of starvation, artillery bombardment, and Soviet surveillance, where private feeling can be grounds for arrest. Simons spent years researching the siege, and the historical detail — daily caloric rations, the frozen Lake Ladoga supply route, hospital conditions — is harrowing in its precision. The love story is operatic in intensity, the tragedy earned rather than manufactured. It is a war novel as much as a romance, refusing to sentimentalise what survival actually costs."
+  },
+  {
+    "id": "book-010",
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "year": 1813,
+    "genre": "romance",
+    "description": "Elizabeth Bennet, the second of five daughters in a genteel but financially precarious English family, meets the wealthy and aloof Mr. Darcy at a country ball — and the two clash immediately, she finding him arrogant and he considering her family beneath his notice. Austen's comedy of manners dissects the Regency marriage market with surgical wit, showing how economic necessity, social performance, and genuine feeling become almost impossible to disentangle. As Elizabeth learns to distinguish between her own prejudice and sound judgement — and Darcy confronts his pride — their antagonism slowly becomes something more honest and more dangerous. The dialogue is among the finest in English literature, every exchange a precise calibration of irony and subtext. It remains the defining template for romantic comedy."
+  },
+  {
+    "id": "book-011",
+    "title": "Outlander",
+    "author": "Diana Gabaldon",
+    "year": 1991,
+    "genre": "romance",
+    "description": "In 1945, British combat nurse Claire Randall is on a second honeymoon in the Scottish Highlands when she touches a standing stone at Craigh na Dun and is thrown back to 1743 — a Scotland torn by Jacobite rebellion and brutal English occupation. Struggling to survive in a world without antibiotics or the rule of law she knows, Claire is forced into a marriage of protection with the Highland warrior Jamie Fraser, a man whose honour and physical courage she comes to love with unexpected ferocity. Gabaldon's research into eighteenth-century Scottish history, Gaelic culture, and period medicine is meticulous, giving the novel an anthropological texture beneath its passionate surface. The time-travel conceit becomes secondary to an intimate portrait of a woman deciding which life — and which century — is truly her home."
+  },
+  {
+    "id": "book-012",
+    "title": "The Time Traveler's Wife",
+    "author": "Audrey Niffenegger",
+    "year": 2003,
+    "genre": "romance",
+    "description": "Henry DeTamble has a rare genetic condition — chrono-displacement disorder — that causes him to involuntarily vanish through time, reappearing naked and disoriented in moments from his own past or future. His wife Clare has known him since she was six years old, when an older version of Henry began appearing in the meadow behind her childhood home, shaping her entire adolescence around a man she had not yet properly met. Niffenegger tells their love story non-linearly, jumping between decades to show how a relationship can exist simultaneously across time — tender, frustrating, grief-stricken, and profound. The novel asks what commitment means when you can never know if the person you love will be there when you reach for them. Its ending is devastating and inevitable, earned by every detail that preceded it."
+  },
+  {
+    "id": "book-013",
+    "title": "Me Before You",
+    "author": "Jojo Moyes",
+    "year": 2012,
+    "genre": "romance",
+    "description": "Louisa Clark, a quirky working-class young woman from a small English town, takes a job as carer for Will Traynor, a wealthy and once-adventurous man left quadriplegic after a motorcycle accident who has retreated into bitter, razor-tongued isolation. Their dynamic begins as mutual irritation — Will finds Louisa's relentless optimism grating; she finds his cruelty deflating — but gradually they build a friendship neither expected and a love neither can afford. Moyes places their central relationship in direct conflict with a devastating ethical question about autonomy and the right to die, refusing to let either character or reader settle into comfort. The novel is both a love story and a meditation on what it means to truly see another person and want more for them than they want for themselves."
+  },
+  {
+    "id": "book-014",
+    "title": "Gone Girl",
+    "author": "Gillian Flynn",
+    "year": 2012,
+    "genre": "thriller",
+    "description": "On the morning of their fifth wedding anniversary, Amy Dunne disappears from her Missouri home, leaving behind a staged crime scene and a husband, Nick, who rapidly becomes the prime suspect under the pressure of a growing media circus. Flynn tells the story in alternating voices: Nick's present-day narration and entries from Amy's diary spanning their courtship and marriage, both narrators subtly unreliable in ways the reader cannot yet measure. The novel's notorious midpoint twist reframes everything that came before — revealing manipulation so thorough it becomes a kind of dark art. Flynn dissects modern marriage, media consumption, and the performance of femininity with merciless precision; Amy's monologue on the concept of the 'cool girl' became a cultural touchstone. The final act is a study in how two people who truly deserve each other become each other's perfect punishment."
+  },
+  {
+    "id": "book-015",
+    "title": "The Girl with the Dragon Tattoo",
+    "author": "Stieg Larsson",
+    "year": 2005,
+    "genre": "thriller",
+    "description": "Disgraced financial journalist Mikael Blomkvist is hired by an elderly patriarch to investigate the forty-year-old disappearance of his niece Harriet, a mystery buried inside the secrets of a powerful and deeply dysfunctional Swedish industrial dynasty. He is eventually joined by Lisbeth Salander, a brilliant, antisocial hacker with a traumatic past and a capacity for both vulnerability and terrifying precision. Larsson's Sweden is not the social-democratic idyll of popular imagination but a country riddled with institutional failure, sexual violence, and corporate corruption — and both protagonists are survivors of systems that failed them. The mystery is intricate and satisfying, but the novel's lasting power comes from Salander, one of the most original protagonists in contemporary crime fiction."
+  },
+  {
+    "id": "book-016",
+    "title": "No Country for Old Men",
+    "author": "Cormac McCarthy",
+    "year": 2005,
+    "genre": "thriller",
+    "description": "In 1980 West Texas, welder and Vietnam veteran Llewelyn Moss stumbles upon the aftermath of a drug deal gone wrong in the desert and takes a case containing two million dollars, setting in motion a pursuit that will consume him and the aging sheriff Ed Tom Bell who tries to intercept both Moss and his pursuer. That pursuer is Anton Chigurh — a killer of absolute conviction who carries a captive bolt pistol and operates by a philosophy of fate so rigid it has become a theology. McCarthy strips his prose to near-nothing: dialogue untagged, punctuation minimal, violence arriving without warning or commentary. Sheriff Bell's chapters function as a lament, the reflections of a man who sees evil outpacing his understanding. The novel asks whether civilisation is a veneer over chaos that only briefly, accidentally, holds."
+  },
+  {
+    "id": "book-017",
+    "title": "The Silent Patient",
+    "author": "Alex Michaelides",
+    "year": 2019,
+    "genre": "thriller",
+    "description": "Alicia Berenson, a celebrated painter, shoots her husband five times in the face and then never speaks another word — not to explain herself, not to deny guilt, not to respond to the psychiatric facility where she is committed. Theo Faber, a criminal psychotherapist obsessed with Alicia's case, engineers his way into the facility specifically to treat her, convinced he can unlock her silence where others have failed. The novel alternates between Theo's first-person account of his growing obsession and entries from Alicia's diary written before the murder, painting a portrait of a marriage under increasing and ambiguous strain. Michaelides calibrates his reveals with precision, each chapter deepening unease, until a final twist that recontextualises the entire story. The book is a technically elegant thriller — efficient, cold, and ruthlessly plotted."
+  },
+  {
+    "id": "book-018",
+    "title": "And Then There Were None",
+    "author": "Agatha Christie",
+    "year": 1939,
+    "genre": "mystery",
+    "description": "Ten strangers — a judge, a doctor, a soldier, a governess, and six others — are lured to a remote island off the Devon coast under various pretexts, only to be accused by a recorded voice of past crimes for which they were never legally held responsible. Following the nursery rhyme 'Ten Little Soldiers,' they are killed one by one, with no apparent murderer among the living survivors and no way to reach the mainland. Christie's masterstroke is structural: she takes the locked-room mystery to its logical extreme, making the island itself the locked room and denying the reader any outside rescuer. The puzzle is played entirely fair — the reader is given everything needed to solve it — but the solution remains genuinely difficult to anticipate. The best-selling mystery novel of all time, with over 100 million copies sold."
+  },
+  {
+    "id": "book-019",
+    "title": "The Big Sleep",
+    "author": "Raymond Chandler",
+    "year": 1939,
+    "genre": "mystery",
+    "description": "Los Angeles private detective Philip Marlowe is hired by the ailing General Sternwood to handle a blackmailer threatening his younger daughter Carmen, but what begins as a contained job spirals into a labyrinth of pornography, gambling, multiple murders, and the disappearance of the General's son-in-law. Chandler's Los Angeles is a city of rain-slicked streets, corrupt police, and wealthy clients who treat the law as a personal convenience — and Marlowe navigates it with mordant wit and an unbendable moral code. The plot is famously so intricate that Chandler himself admitted he couldn't determine who killed one of the characters. What matters is Marlowe's voice — wry, sad, precise, capable of sudden lyrical observation — and the portrait of a city where everything is for sale. The Big Sleep defined the hard-boiled detective novel."
+  },
+  {
+    "id": "book-020",
+    "title": "In the Woods",
+    "author": "Tana French",
+    "year": 2007,
+    "genre": "mystery",
+    "description": "Dublin Murder Squad detective Rob Ryan carries a secret: as a twelve-year-old he emerged alone from the woods near Knocknaree with no memory of what happened to the two friends who entered with him and were never found. Twenty years later a girl is murdered on an archaeological dig in those same woods, and Rob is assigned to the case without revealing his past. French's novel is saturated with atmosphere — the damp Irish countryside, the excavation site slowly yielding Bronze Age remains, the claustrophobic pressure of a murder squad — and Rob is a deeply unreliable narrator whose trauma reshapes everything he perceives. The novel refuses the comfort of full resolution in either the current case or the childhood mystery, prioritising psychological truth over genre satisfaction."
+  },
+  {
+    "id": "book-021",
+    "title": "Rebecca",
+    "author": "Daphne du Maurier",
+    "year": 1938,
+    "genre": "mystery",
+    "description": "A shy, unnamed young woman marries the wealthy widower Maxim de Winter and moves to Manderley, his imposing Cornish estate, only to find herself haunted by the pervasive presence of his first wife Rebecca — beautiful, accomplished, and drowned the previous year under circumstances that remain officially accidental. The housekeeper Mrs. Danvers, devoted to Rebecca with a fervour bordering on obsession, systematically dismantles the new Mrs. de Winter's confidence, while Manderley itself seems to resist occupation by any other woman. Du Maurier builds dread through accumulation rather than incident: the preserved bedroom, the monogrammed handkerchief, the boat in the cove. When the novel's central secret is finally revealed, it reframes both Maxim and the romantic triangle the reader believed they were inhabiting. Rebecca is a Gothic masterpiece about memory, identity, and the power of a beautiful ghost."
+  },
+  {
+    "id": "book-022",
+    "title": "Beloved",
+    "author": "Toni Morrison",
+    "year": 1987,
+    "genre": "literary fiction",
+    "description": "Set in the years immediately following the American Civil War, Beloved follows Sethe, a formerly enslaved woman living outside Cincinnati who committed an act of desperate violence to prevent her children from being returned to slavery, and who has lived with the supernatural and psychological consequences ever since. When a young woman who calls herself Beloved arrives at Sethe's house — apparently resurrected from the dead — she brings the full, unprocessed weight of everything Sethe has tried to outrun. Morrison's prose moves between the lyrical and the fractured in ways that mirror trauma itself, operating simultaneously as realism, Gothic horror, and African American oral tradition. The novel forces a reckoning with the interior life that slavery required its victims to suppress in order to survive. Winner of the Pulitzer Prize, it is widely considered the greatest American novel of the twentieth century's second half."
+  },
+  {
+    "id": "book-023",
+    "title": "The Road",
+    "author": "Cormac McCarthy",
+    "year": 2006,
+    "genre": "literary fiction",
+    "description": "An unnamed father and his young son travel south through a post-apocalyptic America — the cause of the catastrophe never specified — across ash-grey landscapes, past burning cities and starving survivors who have turned to cannibalism. They carry a pistol with two bullets, saved for themselves if capture becomes certain. McCarthy strips his prose to its barest elements: short declarative sentences, no quotation marks, minimal punctuation, a grammar that mirrors a world from which almost everything has been removed. And yet the novel is not nihilistic — at its core it is about the ferocity of parental love and the question of what it means to 'carry the fire': to remain moral when morality has no obvious reward. The ending is both devastating and, in its small way, genuinely hopeful."
+  },
+  {
+    "id": "book-024",
+    "title": "Never Let Me Go",
+    "author": "Kazuo Ishiguro",
+    "year": 2005,
+    "genre": "literary fiction",
+    "description": "Kathy H., looking back from middle age on her childhood at Hailsham — an isolated English boarding school where students are treated with unusual care and encouraged to produce art — gradually reveals the nature of what Hailsham really is and what fate awaits her and her two closest friends, Tommy and Ruth. They are clones, raised to donate their organs in young adulthood, and the novel traces how they navigate love, jealousy, and grief within the narrow corridor of life they have been given. Ishiguro's genius is in what is withheld: Kathy never fully confronts her situation because confrontation would shatter her, and the reader is drawn along by her calm, measured voice into a sorrow that arrives not as shock but as slow, irresistible accumulation. The novel is a meditation on memory, mortality, and the human capacity to build meaning inside a predetermined fate — and a quiet critique of how societies make the unacceptable appear natural."
+  }
+]
