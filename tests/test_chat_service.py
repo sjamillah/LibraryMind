@@ -195,9 +195,13 @@ class TestSources:
 # ── prompt builder ────────────────────────────────────────────────────────────
 
 class TestBuildPrompt:
-    def test_empty_history_produces_just_user_message(self):
+    def test_empty_history_and_no_matches_still_ends_with_user_message(self):
         prompt = _build_prompt([], [], "Hello")
-        assert prompt == "User: Hello"
+        assert prompt.endswith("User: Hello")
+
+    def test_no_relevant_results_warns_against_inventing_titles(self):
+        prompt = _build_prompt([], [], "Tell me about some obscure author")
+        assert "Do not introduce any other book titles from memory" in prompt
 
     def test_history_appears_before_user_message(self):
         history = [

@@ -11,8 +11,10 @@ class ResilientAIService:
 
     def generate(self, prompt: str, system: str = "", temperature: float = 0.7, max_tokens: int = 1000) -> str:
         """Try providers in order, fall back on failure. Returns the first successful response."""
-        # Cache hits bypass rate limiting — no provider is called, no cost incurred
-        cache_key = cache.make_key(prompt, system)
+        # Cache hits bypass rate limiting — no provider is called, no cost incurred.
+        # temperature/max_tokens are part of the key so two calls with identical
+        # prompt+system but different generation settings don't collide.
+        cache_key = cache.make_key(prompt, system, temperature, max_tokens)
         cached = cache.get(cache_key)
         if cached is not None:
             return cached
